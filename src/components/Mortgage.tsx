@@ -11,6 +11,7 @@ type Props = {
   deduction: number;
   rent: number;
   annualRepayment: number;
+  inflation: number,
   annuity: {
     totalPaidGross: number;
     totalPaidNet: number;
@@ -116,6 +117,12 @@ export function Mortgage(props: Props) {
             prepend="%"
             value={props.deduction}
             field={'deduction'}
+          />
+          <ColumnInputField
+            title="Yearly inflation"
+            prepend="%"
+            value={props.inflation}
+            field={'inflation'}
           />
           <ColumnInputField
             title="Current rent"

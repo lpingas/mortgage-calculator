@@ -23,6 +23,7 @@ export type AppState = {
   deduction: number;
   savings: number;
   rent: number;
+  inflation: number;
 
   // costs
   notary: number;
@@ -47,6 +48,7 @@ const App = (props: RouteComponentProps) => {
     deduction: (search.deduction as number) || 36.93,
     savings: (search.savings as number) || 40000,
     rent: (search.rent as number) || 1600,
+    inflation: (search.inflation as number) || 2,
 
     notary: 1200,
     valuation: 800,
@@ -62,8 +64,8 @@ const App = (props: RouteComponentProps) => {
 
   const linear = useMemo(
     () =>
-      calculateLinearData(state.interest, state.deduction, state.savings, loan),
-    [state.interest, state.deduction, state.savings, loan],
+      calculateLinearData(state.interest, state.deduction, state.savings, loan, state.price, state.inflation),
+    [state.interest, state.deduction, state.savings, loan, state.price, state.inflation],
   );
 
   const annuity = useMemo(
@@ -73,9 +75,11 @@ const App = (props: RouteComponentProps) => {
         state.deduction,
         state.savings,
         loan,
-        state.annualRepayment
+        state.annualRepayment,
+        state.price,
+        state.inflation,
       ),
-    [state.interest, state.deduction, state.savings, loan, state.annualRepayment],
+    [state.interest, state.deduction, state.savings, loan, state.annualRepayment, state.price, state.inflation],
   );
 
   function handleChange(field: string, value: number) {
@@ -229,6 +233,7 @@ function renderInfoTabs(
           price={state.price}
           savings={state.savings}
           annualRepayment={state.annualRepayment}
+          inflation={state.inflation}
           loan={loan}
           cost={cost}
           interest={state.interest}

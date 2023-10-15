@@ -31,10 +31,14 @@ export function calculateAnnuityData(
   savings: number,
   loan: number,
   annualRepayment: number,
+  housePrice: number,
+  houseValueInflation: number,
 ): MortgageData {
   const rate = loanInterest / (12 * 100);
   const numberOfPeriods = 360;
+  const housePriceRate = houseValueInflation / (12 * 100)
 
+  let houseMarketValue = housePrice
   let totalPaidGross = 0;
   let totalPaidNet = 0;
   let accPaid = 0;
@@ -60,6 +64,8 @@ export function calculateAnnuityData(
       const netPaid = grossPaid - deduction;
       totalPaidNet += netPaid;
       accPaid += capitalPaid;
+      const accumulatedEquity = houseMarketValue - balance
+      houseMarketValue = houseMarketValue * (1 + housePriceRate)
 
       return {
         month: i + 1,
@@ -69,6 +75,8 @@ export function calculateAnnuityData(
         interest,
         deduction,
         netPaid,
+        accumulatedEquity,
+        houseMarketValue,
       };
     })
     .filter((v,_) => {return v.balance > 0});
@@ -91,8 +99,13 @@ export function calculateLinearData(
   taxDeduction: number,
   savings: number,
   loan: number,
+  housePrice: number,
+  houseValueInflation: number,
 ): MortgageData {
   const capitalPaid = loan / 360;
+  const housePriceRate = houseValueInflation / (12 * 100)
+
+  let houseMarketValue = housePrice
   let totalPaidGross = 0;
   let totalPaidNet = 0;
   const monthly = Array(360)
@@ -105,6 +118,8 @@ export function calculateLinearData(
       const netPaid = grossPaid - deduction;
       totalPaidNet += netPaid;
       totalPaidGross += grossPaid;
+      const accumulatedEquity = houseMarketValue - balance
+      houseMarketValue = houseMarketValue * (1 + housePriceRate)
       return {
         month: i + 1,
         balance,
@@ -113,6 +128,8 @@ export function calculateLinearData(
         interest,
         deduction,
         netPaid,
+        accumulatedEquity,
+        houseMarketValue,
       };
     });
 

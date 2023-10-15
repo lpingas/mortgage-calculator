@@ -6,6 +6,8 @@ export type MonthMortgageData = {
   interest: number;
   deduction: number;
   netPaid: number;
+  accumulatedEquity: number;
+  houseMarketValue: number;
 }
 
 export type MortgageData = {
