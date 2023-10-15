@@ -114,6 +114,7 @@ export function calculateLinearData(
   let houseMarketValue = housePrice
   let totalPaidGross = 0;
   let totalPaidNet = 0;
+  let totalInvestment = savings;
   const monthly = Array(360)
     .fill(0)
     .map((v, i) => {
@@ -123,8 +124,9 @@ export function calculateLinearData(
       const deduction = (interest * taxDeduction) / 100;
       const netPaid = grossPaid - deduction;
       const accumulatedEquity = houseMarketValue - balance
-      const netEquity = accumulatedEquity - totalPaidNet
+      const netEquity = accumulatedEquity - totalInvestment
       totalPaidNet += netPaid;
+      totalInvestment += netPaid;
       totalPaidGross += grossPaid;
       houseMarketValue = houseMarketValue * (1 + housePriceRate)
       
@@ -136,7 +138,7 @@ export function calculateLinearData(
         interest,
         deduction,
         netPaid,
-        totalInvestment: totalPaidNet,
+        totalInvestment,
         accumulatedEquity,
         netEquity,
         houseMarketValue,
