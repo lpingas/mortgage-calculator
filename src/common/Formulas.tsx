@@ -33,6 +33,7 @@ export function calculateAnnuityData(
   annualRepayment: number,
   housePrice: number,
   houseValueInflation: number,
+  usedSavings: number,
 ): MortgageData {
   const rate = loanInterest / (12 * 100);
   const numberOfPeriods = 360;
@@ -42,6 +43,7 @@ export function calculateAnnuityData(
   let totalPaidGross = 0;
   let totalPaidNet = 0;
   let accPaid = 0;
+  let totalInvestment = usedSavings;
 
   const payOff = 0;
   const payOffPeriod = 0;
@@ -62,9 +64,11 @@ export function calculateAnnuityData(
       totalPaidGross += grossPaid;
       const deduction = (interest * taxDeduction) / 100;
       const netPaid = grossPaid - deduction;
-      totalPaidNet += netPaid;
-      accPaid += capitalPaid;
       const accumulatedEquity = houseMarketValue - balance
+      const netEquity = accumulatedEquity - totalInvestment
+      totalPaidNet += netPaid;
+      totalInvestment += netPaid;
+      accPaid += capitalPaid;
       houseMarketValue = houseMarketValue * (1 + housePriceRate)
 
       return {
@@ -75,7 +79,9 @@ export function calculateAnnuityData(
         interest,
         deduction,
         netPaid,
+        totalInvestment,
         accumulatedEquity,
+        netEquity,
         houseMarketValue,
       };
     })
@@ -116,10 +122,12 @@ export function calculateLinearData(
       const grossPaid = capitalPaid + interest;
       const deduction = (interest * taxDeduction) / 100;
       const netPaid = grossPaid - deduction;
+      const accumulatedEquity = houseMarketValue - balance
+      const netEquity = accumulatedEquity - totalPaidNet
       totalPaidNet += netPaid;
       totalPaidGross += grossPaid;
-      const accumulatedEquity = houseMarketValue - balance
       houseMarketValue = houseMarketValue * (1 + housePriceRate)
+      
       return {
         month: i + 1,
         balance,
@@ -128,7 +136,9 @@ export function calculateLinearData(
         interest,
         deduction,
         netPaid,
+        totalInvestment: totalPaidNet,
         accumulatedEquity,
+        netEquity,
         houseMarketValue,
       };
     });

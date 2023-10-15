@@ -27,7 +27,9 @@ export function DataTable(props: TableProps) {
             <th>Interest</th>
             <th>Tax Return</th>
             <th>Net</th>
+            <th>Total Investment</th>
             <th>Accumulated Equity</th>
+            <th>Net Equity</th>
             <th>House Market Value</th>
           </tr>
         </thead>
@@ -42,7 +44,9 @@ export function DataTable(props: TableProps) {
                 <TableNumber value={item.interest} />
                 <TableNumber value={item.deduction} />
                 <TableNumber value={item.netPaid} />
+                <TableNumber value={item.totalInvestment} />
                 <TableNumber value={item.accumulatedEquity} />
+                <TableNumber value={item.netEquity} />
                 <TableNumber value={item.houseMarketValue} />
               </tr>
             );

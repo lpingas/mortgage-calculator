@@ -6,7 +6,9 @@ export type MonthMortgageData = {
   interest: number;
   deduction: number;
   netPaid: number;
+  totalInvestment: number;
   accumulatedEquity: number;
+  netEquity: number;
   houseMarketValue: number;
 }
 

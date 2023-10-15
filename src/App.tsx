@@ -78,6 +78,7 @@ const App = (props: RouteComponentProps) => {
         state.annualRepayment,
         state.price,
         state.inflation,
+        state.savings,
       ),
     [state.interest, state.deduction, state.savings, loan, state.annualRepayment, state.price, state.inflation],
   );
