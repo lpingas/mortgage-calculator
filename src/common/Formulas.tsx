@@ -2,6 +2,7 @@ import { MortgageData } from './Types';
 import { MAX_NHG, NHG_FEE } from '../components/Costs';
 import { AppState } from '../App';
 
+// total payment per month
 export function PMT(rate: number, nperiod: number, pv: number) {
   if (rate === 0) return -pv / nperiod;
 
@@ -11,11 +12,13 @@ export function PMT(rate: number, nperiod: number, pv: number) {
   return pmt;
 }
 
+// interest payment per month
 export function IPMT(pv: number, pmt: number, rate: number, per: number) {
   var tmp = Math.pow(1 + rate, per - 1);
   return 0 - (pv * tmp * rate + pmt * (tmp - 1));
 }
 
+// principal payment per month
 export function PPMT(rate: number, per: number, nper: number, pv: number) {
   var pmt = PMT(rate, nper, pv);
   var ipmt = IPMT(pv, pmt, rate, per);
@@ -27,6 +30,7 @@ export function calculateAnnuityData(
   taxDeduction: number,
   savings: number,
   loan: number,
+  annualRepayment: number,
 ): MortgageData {
   const rate = loanInterest / (12 * 100);
   const numberOfPeriods = 360;
@@ -46,8 +50,9 @@ export function calculateAnnuityData(
       const pmt = PMT(rate, numberOfPeriods - i, balance);
       const ppmt = -PPMT(rate, 1, numberOfPeriods - i, balance);
       const ipmt = -IPMT(balance, pmt, rate, 1);
+      const additionalRepayment = Math.min(annualRepayment, balance)
       let capitalPaid =
-        ppmt + (i < payOffPeriod ? (balance > 0 ? payOff : 0) : 0);
+        ppmt + (i < payOffPeriod ? (balance > 0 ? payOff : 0) : 0) + ((i > 1 && i % 12 === 0) ? additionalRepayment : 0);
       const interest = ipmt;
       const grossPaid = capitalPaid + interest;
       totalPaidGross += grossPaid;
@@ -65,7 +70,8 @@ export function calculateAnnuityData(
         deduction,
         netPaid,
       };
-    });
+    })
+    .filter((v,_) => {return v.balance > 0});
 
   return {
     monthly,

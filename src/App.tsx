@@ -19,6 +19,7 @@ export type AppState = {
   // mortgage
   price: number;
   interest: number;
+  annualRepayment: number;
   deduction: number;
   savings: number;
   rent: number;
@@ -41,6 +42,7 @@ const App = (props: RouteComponentProps) => {
 
   const [state, setState] = useState<AppState>({
     price: (search.price as number) || 310000,
+    annualRepayment: (search.annualRepayment as number) || 0,
     interest: (search.interest as number) || 4.62,
     deduction: (search.deduction as number) || 36.93,
     savings: (search.savings as number) || 40000,
@@ -71,8 +73,9 @@ const App = (props: RouteComponentProps) => {
         state.deduction,
         state.savings,
         loan,
+        state.annualRepayment
       ),
-    [state.interest, state.deduction, state.savings, loan],
+    [state.interest, state.deduction, state.savings, loan, state.annualRepayment],
   );
 
   function handleChange(field: string, value: number) {
@@ -225,6 +228,7 @@ function renderInfoTabs(
         <Mortgage
           price={state.price}
           savings={state.savings}
+          annualRepayment={state.annualRepayment}
           loan={loan}
           cost={cost}
           interest={state.interest}
