@@ -31,6 +31,7 @@ export function calculateAnnuityData(
   savings: number,
   loan: number,
   annualRepayment: number,
+  extraRepayment: number,
   housePrice: number,
   houseValueInflation: number,
   usedSavings: number,
@@ -47,14 +48,14 @@ export function calculateAnnuityData(
 
   const payOff = 0;
   const payOffPeriod = 0;
-  const monthly = Array(360)
+  const monthly = Array(numberOfPeriods)
     .fill(0)
     .map((v, i) => {
       //const period = i + 1;
       let balance = loan - accPaid;
       balance = Math.max(balance, 0);
       const pmt = PMT(rate, numberOfPeriods - i, balance);
-      const ppmt = -PPMT(rate, 1, numberOfPeriods - i, balance);
+      const ppmt = -PPMT(rate, 1, numberOfPeriods - i, balance) + extraRepayment;
       const ipmt = -IPMT(balance, pmt, rate, 1);
       const additionalRepayment = Math.min(annualRepayment, balance)
       let capitalPaid =

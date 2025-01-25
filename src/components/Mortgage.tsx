@@ -11,6 +11,7 @@ type Props = {
   deduction: number;
   rent: number;
   annualRepayment: number;
+  extraRepayment: number;
   inflation: number,
   annuity: {
     totalPaidGross: number;
@@ -75,6 +76,12 @@ export function Mortgage(props: Props) {
             prepend="€"
             value={props.annualRepayment}
             field={'annualRepayment'}
+          />
+          <ColumnInputField
+            title="Extra (monthly) repayment"
+            prepend="€"
+            value={props.extraRepayment}
+            field={'extraRepayment'}
           />
           <ColumnInputField
             title="Purchase cost"
