@@ -25,6 +25,7 @@ export type AppState = {
   savings: number;
   rent: number;
   inflation: number;
+  numberOfPeriods: number;
 
   // costs
   notary: number;
@@ -51,6 +52,7 @@ const App = (props: RouteComponentProps) => {
     savings: (search.savings as number) || 40000,
     rent: (search.rent as number) || 1600,
     inflation: (search.inflation as number) || 2,
+    numberOfPeriods: (search.numberOfPeriods as number) || 360,
 
     notary: 1200,
     valuation: 800,
@@ -82,8 +84,9 @@ const App = (props: RouteComponentProps) => {
         state.price,
         state.inflation,
         state.savings,
+        state.numberOfPeriods,
       ),
-    [state.interest, state.deduction, state.savings, loan, state.annualRepayment, state.extraRepayment, state.price, state.inflation],
+    [state.interest, state.deduction, state.savings, loan, state.annualRepayment, state.extraRepayment, state.price, state.inflation, state.savings, state.numberOfPeriods],
   );
 
   function handleChange(field: string, value: number) {
@@ -239,6 +242,7 @@ function renderInfoTabs(
           annualRepayment={state.annualRepayment}
           extraRepayment={state.extraRepayment}
           inflation={state.inflation}
+          numberOfPeriods={state.numberOfPeriods}
           loan={loan}
           cost={cost}
           interest={state.interest}

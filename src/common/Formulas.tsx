@@ -35,9 +35,9 @@ export function calculateAnnuityData(
   housePrice: number,
   houseValueInflation: number,
   usedSavings: number,
+  numberOfPeriods: number,
 ): MortgageData {
   const rate = loanInterest / (12 * 100);
-  const numberOfPeriods = 360;
   const housePriceRate = houseValueInflation / (12 * 100)
 
   let houseMarketValue = housePrice

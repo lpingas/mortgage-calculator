@@ -12,7 +12,8 @@ type Props = {
   rent: number;
   annualRepayment: number;
   extraRepayment: number;
-  inflation: number,
+  inflation: number;
+  numberOfPeriods: number;
   annuity: {
     totalPaidGross: number;
     totalPaidNet: number;
@@ -82,6 +83,12 @@ export function Mortgage(props: Props) {
             prepend="€"
             value={props.extraRepayment}
             field={'extraRepayment'}
+          />
+          <ColumnInputField
+            title="How many months"
+            prepend="M"
+            value={props.numberOfPeriods}
+            field={'numberOfPeriods'}
           />
           <ColumnInputField
             title="Purchase cost"
