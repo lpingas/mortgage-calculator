@@ -3,6 +3,7 @@ import { InputField } from './InputField';
 
 type Props = {
   price: number;
+  marketPrice: number;
   savings: number;
   cost: number;
   loan: number;
@@ -65,6 +66,12 @@ export function Mortgage(props: Props) {
             prepend="€"
             value={props.price}
             field={'price'}
+          />
+          <ColumnInputField
+            title="House Market price"
+            prepend="€"
+            value={props.marketPrice}
+            field={'marketPrice'}
           />
           <ColumnInputField
             title="Own savings"

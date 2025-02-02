@@ -33,6 +33,7 @@ export function calculateAnnuityData(
   annualRepayment: number,
   extraRepayment: number,
   housePrice: number,
+  marketPrice: number,
   houseValueInflation: number,
   usedSavings: number,
   numberOfPeriods: number,
@@ -40,7 +41,7 @@ export function calculateAnnuityData(
   const rate = loanInterest / (12 * 100);
   const housePriceRate = houseValueInflation / (12 * 100)
 
-  let houseMarketValue = housePrice
+  let houseMarketValue = marketPrice
   let totalPaidGross = 0;
   let totalPaidNet = 0;
   let accPaid = 0;
